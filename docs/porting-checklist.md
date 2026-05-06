@@ -22,6 +22,7 @@ Inspection is complete only when you have identified, or explicitly confirmed ab
 - repository-wide rules source
 - architecture overview or system map
 - intent-doc root or missing-doc state
+- current documentation state and first-pass plan: reuse, normalize, or bootstrap
 - source root, shared-code root, and config root when relevant
 - existing skills, memory files, or instruction files that may overlap
 - maintenance evidence source
@@ -31,22 +32,30 @@ Record this inspection result in a repository note, porting note, or equivalent 
 
 Do not generate skills before this inspection is complete.
 
-## Phase 1A: Bootstrap The Doc System When Missing
+## Phase 1A: Establish The Documentation Baseline First
 
-If the destination repository has no intent-doc system yet, build the smallest viable documentation target before porting the full skill pair.
+Do not port the full skill pair until the destination repository has a usable documentation baseline.
+
+After inspection, choose the lightest viable first-pass path:
+
+- reuse: existing docs already form a stable target for the skills
+- normalize: existing docs are useful but need a first pass into a clearer or more consistent shape
+- bootstrap: no usable documentation baseline exists yet, so create the smallest one from scratch
 
 Minimum bootstrap target:
 
 - one lightweight architecture overview or system map
-- one stable intent-doc root
-- one canonical component or service doc template
-- one or two seed docs for the areas most likely to be queried first
+- one stable intent-doc root or local equivalent
+- one canonical component or service doc template, or one canonical normalization target for existing docs
+- one or two seed docs, or one or two normalized existing docs, for the areas most likely to be queried first
 
 If you need a starting point, adapt [templates/intent-doc-template-sketch.md](../templates/intent-doc-template-sketch.md) into the destination repository's own conventions.
 
 Recommended rollout:
 
-- bootstrap the doc system
+- inspect the current documentation state
+- choose reuse, normalize, or bootstrap
+- create or normalize the smallest viable documentation baseline
 - port the orientation skill first
 - validate that the orientation skill can use the new docs meaningfully
 - port the maintenance skill only after the documentation target is stable enough for repeatable review
@@ -191,6 +200,7 @@ That separation keeps the result portable and maintainable instead of merely cop
 Confirm all of the following:
 
 - an inspection record exists for the destination repository and covers the minimum required inputs
+- the documentation baseline decision was recorded as reuse, normalize, or bootstrap
 - if no repository-wide rules source existed, that absence was recorded explicitly
 - the generated skills fit the destination repository's naming and file layout
 - the generated skills do not conflict with existing memory or instruction systems

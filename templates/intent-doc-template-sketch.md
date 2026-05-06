@@ -1,6 +1,6 @@
 # Intent Doc Template Sketch
 
-Use this sketch only when a destination repository does not yet have an intent-doc system and needs the smallest viable starting point.
+Use this sketch when a destination repository does not yet have a usable intent-doc baseline, or when existing docs need a canonical shape to normalize toward during the first documentation pass.
 
 This is not a required universal schema. Adapt the headings, metadata, and terminology to the destination repository's own conventions.
 
@@ -34,5 +34,11 @@ Minimum bootstrap recommendation:
 - create one architecture overview or system map
 - create one canonical intent doc template from this sketch
 - create one or two seed docs for the highest-value areas first
+
+Normalization-first variant:
+
+- keep any existing docs that are already good enough
+- adapt one representative doc into this canonical shape
+- normalize one or two high-value existing docs before generating the orientation skill
 
 Keep the first version concise. The goal is to create a stable documentation target that the orientation skill can use immediately, not to document the whole system at once.

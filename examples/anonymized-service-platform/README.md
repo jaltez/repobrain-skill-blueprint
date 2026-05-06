@@ -79,6 +79,8 @@ Chosen maintenance evidence strategy:
 
 Because the repository had no intent-doc system yet, the porting agent created the smallest viable documentation target before generating the full skill pair.
 
+This example shows the bootstrap path. In a repository that already has partial docs, the equivalent first pass could normalize existing docs into a stable intent-doc shape instead of creating them all net-new.
+
 Bootstrap output:
 
 - `docs/intent/`

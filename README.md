@@ -84,6 +84,7 @@ Inspection is complete only when you have identified, or explicitly confirmed ab
 - repository-wide rules source
 - architecture overview or system map
 - intent-doc root or the absence of one
+- current documentation state and first-pass plan: reuse, normalize, or bootstrap
 - source root, shared-code root, and config root when relevant
 - existing skills, memory files, or instruction files that may overlap
 - the maintenance evidence source the destination repository can actually support
@@ -91,22 +92,30 @@ Inspection is complete only when you have identified, or explicitly confirmed ab
 
 Record these findings before you adapt templates. A port without this record is incomplete.
 
-### 1A. Bootstrap The Doc System If It Does Not Exist Yet
+### 1A. Establish The Documentation Baseline First
 
-If the destination repository has no intent-focused doc system yet, do not generate the maintenance skill first.
+Do not generate the maintenance skill until the destination repository has a usable documentation baseline.
 
-Create the smallest viable documentation target before porting the full pair of skills:
+After inspection, choose the lightest viable first-pass path:
+
+- reuse: existing docs already provide a stable target for the skills
+- normalize: existing docs are useful but need a first pass into a clearer or more consistent shape
+- bootstrap: no usable documentation baseline exists yet, so create the smallest one from scratch
+
+Create or normalize the smallest viable documentation target before porting the full pair of skills:
 
 - a lightweight architecture overview or system map
-- one intent-doc root with a stable location
-- one canonical component or service doc template
-- one or two seed docs for the areas most likely to need orientation first
+- one stable intent-doc root or local equivalent
+- one canonical component or service doc template, or one canonical normalization target for existing docs
+- one or two seed docs, or one or two normalized existing docs, for the areas most likely to need orientation first
 
 If you need a starting point for that documentation shape, adapt [templates/intent-doc-template-sketch.md](templates/intent-doc-template-sketch.md) into the destination repository's own conventions instead of improvising from scratch.
 
 Recommended order:
 
-- bootstrap the doc system
+- inspect the current documentation state
+- choose reuse, normalize, or bootstrap
+- create or normalize the smallest viable documentation baseline
 - port the orientation skill
 - validate that the orientation skill can use the new docs productively
 - port the maintenance skill only after the documentation target is stable enough to review and refresh consistently
