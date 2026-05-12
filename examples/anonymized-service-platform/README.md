@@ -7,6 +7,7 @@ It shows three things:
 - the local placeholder bindings chosen during the port
 - the inspection-complete record used before template adaptation
 - the bootstrap actions taken because the destination repository did not yet have an intent-doc system
+- the example seed intent docs created during that bootstrap pass
 - the final artifact set created in the destination repository
 - concrete generated example artifacts produced from those decisions
 
@@ -89,6 +90,8 @@ Bootstrap output:
 - `docs/intent/orders.md`
 - `docs/intent/notifications.md`
 
+This blueprint repository mirrors those illustrative seed docs under `generated/docs/intent/` so the bootstrap path is visible end to end instead of being implied only by the narrative.
+
 For this example, the destination repository's `docs/intent/_template.md` could be derived from [templates/intent-doc-template-sketch.md](../../templates/intent-doc-template-sketch.md) and then localized to the platform's own terminology.
 
 The orientation skill was generated and validated against those docs first. The maintenance skill was generated only after the new documentation target proved stable enough for repeated review.
@@ -112,6 +115,10 @@ This blueprint repository also includes illustrative generated artifacts for thi
 - `generated/docs-orientation-SKILL.md`
 - `generated/docs-maintenance-SKILL.md`
 - `generated/docs-skill-port-note.md`
+- `generated/docs/intent/_template.md`
+- `generated/docs/intent/index.md`
+- `generated/docs/intent/orders.md`
+- `generated/docs/intent/notifications.md`
 
 ## Example Provenance Marker
 

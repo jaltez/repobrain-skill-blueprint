@@ -42,6 +42,8 @@ After inspection, choose the lightest viable first-pass path:
 - normalize: existing docs are useful but need a first pass into a clearer or more consistent shape
 - bootstrap: no usable documentation baseline exists yet, so create the smallest one from scratch
 
+If the choice is not obvious, use [decision-guides.md](decision-guides.md). It provides a compact matrix for choosing between reuse, normalize, and bootstrap.
+
 Minimum bootstrap target:
 
 - one lightweight architecture overview or system map
@@ -114,6 +116,8 @@ Preferred order:
 - explicit changed-file list or changed-component list
 - patch excerpt, review artifact, or CI-produced diff text
 - manually curated component list as a last resort
+
+When the later maintenance review reaches the documentation-action decision, use the smallest-correct-action matrix in [decision-guides.md](decision-guides.md) to keep `content update`, `verification-only refresh`, `no change`, and `new doc` decisions consistent.
 
 Require the generated maintenance skill to state which evidence source it used and what blind spots remain when evidence is partial.
 

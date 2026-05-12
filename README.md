@@ -1,5 +1,7 @@
 # RepoBrain Skill Blueprint
 
+![RepoBrain cover](assets/repobrain.png)
+
 Blueprint version: `2026.05.06`
 
 This repository is a blueprint for creating project-specific documentation skills.
@@ -102,6 +104,8 @@ After inspection, choose the lightest viable first-pass path:
 - normalize: existing docs are useful but need a first pass into a clearer or more consistent shape
 - bootstrap: no usable documentation baseline exists yet, so create the smallest one from scratch
 
+If the choice is not obvious, use [docs/decision-guides.md](docs/decision-guides.md). It provides a compact matrix for choosing between reuse, normalize, and bootstrap.
+
 Create or normalize the smallest viable documentation target before porting the full pair of skills:
 
 - a lightweight architecture overview or system map
@@ -167,6 +171,8 @@ Choose the change-evidence strategy the destination repository can actually supp
 - an explicit changed-file list or changed-component list
 - a patch excerpt, review artifact, or CI-produced diff text
 - a manually curated component list as a last resort
+
+When the maintenance review reaches the documentation-action decision, use the smallest-correct-action matrix in [docs/decision-guides.md](docs/decision-guides.md) to keep `content update`, `verification-only refresh`, `no change`, and `new doc` decisions consistent.
 
 Require the generated maintenance skill to state which evidence source it used and what blind spots remain when the evidence is incomplete.
 
@@ -257,10 +263,11 @@ Ported on: <YYYY-MM-DD>
 - `templates/maintenance-skill-template.md`: base template for the post-change maintenance skill
 - `templates/intent-doc-template-sketch.md`: minimal bootstrap sketch for the destination repository's first intent doc template
 - `docs/design-rationale.md`: decision boundaries, naming guidance, invariants, and split-vs-single-skill rationale
+- `docs/decision-guides.md`: tie-break matrices for documentation-baseline choice and the smallest correct maintenance action
 - `docs/porting-checklist.md`: destination-repository checklist and validation steps
 - `docs/integration-warnings.md`: edge cases and mitigation guidance
 - `examples/anonymized-service-platform/README.md`: end-to-end example port with placeholder bindings and final artifact map
-- `examples/anonymized-service-platform/generated/`: illustrative generated skills and a port note for the worked example
+- `examples/anonymized-service-platform/generated/`: illustrative generated skills, seed intent docs, and a port note for the worked example
 
 ## Suggested Naming Direction
 
@@ -280,7 +287,8 @@ Do not force these exact names if the destination repository already has a stron
 1. Read this README fully.
 2. Read [docs/design-rationale.md](docs/design-rationale.md).
 3. Use [docs/porting-checklist.md](docs/porting-checklist.md) while inspecting the destination repository.
-4. Read [examples/anonymized-service-platform/README.md](examples/anonymized-service-platform/README.md) and the generated example artifacts if you want a worked example before adapting the templates.
-5. Adapt one or both files in `templates/`.
-6. Review [docs/integration-warnings.md](docs/integration-warnings.md) before finalizing the generated skills.
-7. Record the blueprint version and source ref in the generated result.
+4. Read [docs/decision-guides.md](docs/decision-guides.md) when baseline choice or maintenance action selection is a close call.
+5. Read [examples/anonymized-service-platform/README.md](examples/anonymized-service-platform/README.md) and the generated example artifacts if you want a worked example before adapting the templates.
+6. Adapt one or both files in `templates/`.
+7. Review [docs/integration-warnings.md](docs/integration-warnings.md) before finalizing the generated skills.
+8. Record the blueprint version and source ref in the generated result.
