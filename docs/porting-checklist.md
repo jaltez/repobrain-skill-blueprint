@@ -14,6 +14,7 @@ Confirm the destination repository has been inspected for:
 - an existing documentation template or review convention
 - existing skill files, agent instructions, or memory systems
 - the local git workflow and diff-base strategy
+- the agent runtimes that must load the skills, the skill directories each one scans, and the front matter fields each one accepts or rejects
 
 If no repository-wide rules source exists, record that absence explicitly and continue with the architecture overview, local docs, and code conventions. Do not invent a new rules file unless maintainers actually want one.
 
@@ -27,6 +28,7 @@ Inspection is complete only when you have identified, or explicitly confirmed ab
 - existing skills, memory files, or instruction files that may overlap
 - maintenance evidence source
 - destination skill runtime or schema constraints
+- skill location and front matter rules for every runtime that must load the skills
 
 Record this inspection result in a repository note, porting note, or equivalent artifact before generating skills.
 
@@ -102,6 +104,8 @@ Minimum set to resolve:
 - config-access search pattern
 - shared-dependency search pattern
 - diff-base fallback strategy
+- skill directory location
+- skill directory name for each generated skill, identical to its `name` field
 
 If a placeholder has no clean local equivalent, document the adaptation instead of silently guessing.
 
@@ -132,6 +136,7 @@ Pause and resolve the integration strategy if any of the following are true:
 - the git workflow makes upstream-based diffing unreliable
 - the repository already has similar skills that may conflict with these generated ones
 - dynamic registration or indirect dependency wiring makes search-based tracing unreliable
+- more than one runtime must load the skills and they do not share a skill directory
 
 Do not paper over these conditions by hardcoding assumptions into the generated skills.
 
@@ -142,7 +147,8 @@ While adapting the templates, confirm that:
 - local names follow destination-repository conventions
 - the generated skills point to local docs, not blueprint placeholders
 - every literal `<...>` placeholder marker has been replaced or intentionally removed
-- YAML front matter and other metadata blocks match the destination runtime or were removed when incompatible
+- YAML front matter stays within the Agent Skills fields, with any runtime extension documented by the destination runtime and recorded in the port note
+- each skill directory is named exactly like its `name` field
 - repository-specific prompt examples are only added after inspection
 - local search patterns are treated as seed bindings rather than brittle forever-rules
 - the orientation skill still stays narrow by default
@@ -150,6 +156,8 @@ While adapting the templates, confirm that:
 - the generated skills include source-version traceability
 
 ## Phase 6: Validate In The Destination Repository
+
+Run a format check first: the destination runtime's validator when it provides one, otherwise a validator for the Agent Skills specification.
 
 Run at least one real prompt for each generated skill.
 
@@ -161,6 +169,7 @@ Orientation skill validation:
 - it identifies the right local docs
 - it reconciles docs with code instead of trusting docs blindly
 - it produces concrete next code locations
+- a near-miss prompt that belongs to the maintenance skill does not trigger it
 
 Maintenance skill validation:
 
@@ -168,6 +177,7 @@ Maintenance skill validation:
 - it maps changed code to the right documented areas
 - it distinguishes content update, verification-only refresh, no change, and new doc
 - it avoids rewriting docs when the reasoning surface did not change
+- a near-miss prompt that belongs to the orientation skill does not trigger it
 
 Validation should fail if any of the following remain true:
 
@@ -176,6 +186,8 @@ Validation should fail if any of the following remain true:
 - the maintenance skill does not state the evidence source it used and any blind spots when evidence is partial
 - the orientation skill cannot point to concrete next code locations
 - the generated skill format is incompatible with the destination runtime
+- front matter validation fails, for example because `name` does not match the skill directory or a non-standard field is present
+- a skill triggers on a near-miss prompt that belongs to the other skill
 
 ## Phase 7: Record Port Provenance
 
@@ -214,6 +226,8 @@ Confirm all of the following:
 - the non-git fallback evidence source is defined when git history is unavailable or unreliable
 - the example prompts are generic enough to route well or intentionally localized after inspection
 - the generated skill format matches the destination runtime or intentionally omits incompatible template structure
+- each generated skill passes a front matter format check, and its directory name matches its `name` field
+- each skill sits in a directory that every runtime which must load it is documented to scan
 - the generated skills clearly distinguish documented intent from verified current behavior
 - if combined mode was chosen, the final skill still preserves explicit internal branches for orientation and maintenance
 - the generated skills retain a reference to the blueprint version used for the port

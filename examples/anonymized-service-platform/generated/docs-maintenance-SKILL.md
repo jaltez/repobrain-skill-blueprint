@@ -1,7 +1,6 @@
 ---
 name: docs-maintenance
 description: "Use branch diffs or other change evidence plus docs/intent to decide whether documented areas need a content update, verification refresh, new doc, or no change."
-argument-hint: "Describe the branch, diff range, review target, or documented area to verify"
 ---
 
 # Documentation Maintenance Skill
@@ -11,9 +10,9 @@ This illustrative generated artifact shows what the split maintenance skill can 
 ## Porting Metadata
 
 Ported from RepoBrain Skill Blueprint
-Blueprint version: 2026.05.06
+Blueprint version: 2026.11.25
 Blueprint source ref: example-blueprint-ref
-Ported on: 2026-05-06
+Ported on: 2026-11-25
 
 ## Goal
 
@@ -58,7 +57,7 @@ State:
 Before finishing, confirm that:
 
 - no literal placeholder markers remain
-- the skill format still matches the destination runtime
+- the skill format still matches the destination runtime, and the front matter passes a format check
 - the evidence source used was stated explicitly
 - blind spots were called out when evidence was partial
 - shared-code and config changes were traced into real consumers before downstream docs were updated

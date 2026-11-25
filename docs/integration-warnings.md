@@ -31,12 +31,14 @@ Verify:
 - whether local terminology is stable
 - whether component names differ from user-facing domain language
 - whether the skill runtime supports clarification when ambiguity is material
+- whether a near-miss prompt that belongs to the sibling skill triggers this one
 
 Preferred response:
 
 - scope to the smallest plausible area by default
 - add local prompt examples only after inspecting real repository nouns
 - ask for clarification only when narrowing would create a high risk of a wrong answer
+- state each skill's side of the pre-change versus post-change boundary in its description, and confirm it with one near-miss prompt per skill
 
 ## Inspection Not Complete
 
@@ -51,6 +53,7 @@ Verify:
 - whether overlapping skills, memory files, or instruction files were checked
 - whether the maintenance evidence source was chosen
 - whether the destination runtime or schema constraints were verified
+- whether the skill location and front matter rules were verified for every runtime that must load the skills
 
 Preferred response:
 
@@ -168,22 +171,49 @@ Preferred response:
 - add new skills only when they create a clear new boundary
 - document the relationship between old and new skills explicitly
 
+## Skill Location And Multi-Runtime Repositories
+
+Risk:
+
+The Agent Skills specification does not say where skills live. Each runtime scans its own directories, and only some of them also scan the shared `.agents/skills/` directory. Skills placed for one runtime can be invisible to another that the repository also serves.
+
+Verify:
+
+- which runtimes must load the skills
+- which project-level directories each one scans, and whether it also reads the shared `.agents/skills/` directory
+- whether the runtime discovers skills in ancestor or nested directories, which matters in a monorepo
+
+Preferred response:
+
+- choose a directory that every runtime which must load the skills is documented to scan
+- when no single directory covers them all, use the primary runtime's directory and record the gap in the port note
+- in a monorepo, use a nested skill directory next to the package it serves when the runtime scopes nested skills to that package
+
 ## Skill Runtime And Metadata Format Constraints
 
 Risk:
 
-Some skill runtimes tolerate only a narrow schema, reject YAML front matter entirely, or dislike extra comments and freeform metadata. A source-version marker or an unmodified template header can break loading or routing.
+A generated skill can be correct in content and still fail to load. Some runtimes tolerate only the Agent Skills front matter fields, reject an unknown field instead of ignoring it, or refuse a skill whose `name` does not match its directory. A provenance marker or an unmodified template header can also break loading or routing.
 
 Verify:
 
 - whether the local skill runtime accepts YAML front matter at all
-- which fields are required, optional, or forbidden
+- whether it follows the Agent Skills specification, and which of its fields it honors
+- which front matter fields are required, optional, ignored, or rejected, and which runtime extensions it documents
+- whether the skills will also travel through strict distribution paths such as upload, API packaging, or a skill registry, where a non-standard field can be a hard error
 - whether the local skill format allows comments, extra sections, or custom metadata
+- how much of each `description` the runtime keeps in its skill listing, since some shorten or drop descriptions when many skills are installed
+- whether the runtime has a validator for skill files
 - whether provenance should live inside the skill or in a separate repository note
 
 Preferred response:
 
-- adapt or remove front matter to match the local runtime
+- keep the front matter to `name` and `description`, quoting `description` so an unquoted colon cannot break the YAML
+- name each skill directory exactly like its `name` field
+- add a runtime extension field only when the destination runtime documents it, and record it in the port note
+- put the key use case first in `description` and keep it under 1024 characters
+- keep the generated body concise and move longer material to files the runtime loads on demand
+- run a format check before the prompt loop: the runtime's own validator when it has one, otherwise an Agent Skills spec validator
 - keep provenance in the skill when safe
 - otherwise store the provenance in a repository note or adjacent index file
 - never assume the template schema is portable as written

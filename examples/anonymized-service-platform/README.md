@@ -2,7 +2,7 @@
 
 This is an anonymized example of how a coding agent could port this blueprint into a real destination repository.
 
-It shows three things:
+It shows, end to end:
 
 - the local placeholder bindings chosen during the port
 - the inspection-complete record used before template adaptation
@@ -33,7 +33,7 @@ Before adapting templates, the porting agent had identified or confirmed absent 
 - shared-code root: `packages/shared/`
 - config root: `config/`
 - maintenance evidence source order: explicit review target, `git diff origin/main...HEAD`, CI changed-file manifest, patch excerpt, manual component list
-- runtime/schema assumption: the local skill runtime accepts YAML front matter with `name`, `description`, and `argument-hint`, followed by freeform markdown sections
+- runtime/schema decision: the local skill runtime follows the Agent Skills front matter contract, so each generated skill keeps `name` and `description` only and adds no runtime-specific fields
 
 This record existed before template adaptation started.
 
@@ -44,6 +44,8 @@ Chosen layout:
 - two separate skills
 - orientation skill first
 - maintenance skill second
+
+Chosen skill location: `.agents/skills/`, the shared project-skill directory that several Agent Skills clients scan, including the runtime that loads these skills. It was preferred over a runtime-specific directory so the same files stay visible if the repository later serves another client that scans it.
 
 Chosen rollout:
 
@@ -70,6 +72,7 @@ Chosen maintenance evidence strategy:
 - config root: `config/`
 - shared-code root: `packages/shared/`
 - canonical doc template: `docs/intent/_template.md`
+- skill directory: `.agents/skills/docs-orientation/` and `.agents/skills/docs-maintenance/`, each named exactly like its `name` field
 - entrypoint search pattern: `main.ts|index.ts|router.ts|handler.ts`
 - registration search pattern: `router\.|app\.use|queue\.process|register`
 - config-access search pattern: `process\.env|getConfig\(|config\.`
@@ -100,8 +103,8 @@ The orientation skill was generated and validated against those docs first. The 
 
 After the port, the destination repository contained at least the following new or updated artifacts:
 
-- `.github/skills/docs-orientation/SKILL.md`
-- `.github/skills/docs-maintenance/SKILL.md`
+- `.agents/skills/docs-orientation/SKILL.md`
+- `.agents/skills/docs-maintenance/SKILL.md`
 - `docs/intent/_template.md`
 - `docs/intent/index.md`
 - `docs/intent/orders.md`
@@ -126,9 +129,9 @@ Stored near the top of each generated skill or in a repository note when inline 
 
 ```text
 Ported from RepoBrain Skill Blueprint
-Blueprint version: 2026.05.06
+Blueprint version: 2026.11.25
 Blueprint source ref: <tag-or-commit>
-Ported on: 2026-05-05
+Ported on: 2026-11-25
 ```
 
 ## Example Validation Prompts
@@ -144,7 +147,11 @@ Maintenance validation:
 - `Given this changed file list, tell me which documented areas need review.`
 - `Review this patch excerpt and decide which docs need updates.`
 
-Validation should fail for this example if a generated artifact still contains literal `<...>` placeholders, cannot point to local docs or code paths, or omits the maintenance evidence source.
+Format validation:
+
+- Each generated skill passes an Agent Skills format check: the directory name equals `name`, the front matter holds no non-standard field, and `description` stays within 1024 characters.
+
+Validation should fail for this example if a generated artifact still contains literal `<...>` placeholders, cannot point to local docs or code paths, omits the maintenance evidence source, or fails the format check.
 
 ## Why This Example Matters
 

@@ -1,12 +1,13 @@
 ---
 name: <LOCAL_MAINTENANCE_SKILL_NAME>
 description: "Use repository diffs or other change evidence plus local intent docs to decide whether documented components need a content update, verification refresh, new doc, or no change."
-argument-hint: "Describe the branch, diff range, pull request, component set, or documentation area to verify"
 ---
 
 # Documentation Maintenance Skill
 
 Before finalizing a generated skill from this template, replace every literal `<...>` placeholder and adapt or remove any metadata or headings the destination runtime does not support.
+
+Keep the front matter to `name` and `description` unless the destination runtime documents extra fields. `<LOCAL_MAINTENANCE_SKILL_NAME>` must equal the name of the directory that holds the generated `SKILL.md`, in lowercase letters, digits, and hyphens.
 
 ## Porting Metadata
 
@@ -16,7 +17,7 @@ Suggested marker:
 
 ```text
 Ported from RepoBrain Skill Blueprint
-Blueprint version: 2026.05.06
+Blueprint version: 2026.11.25
 Blueprint source ref: <tag-or-commit>
 Ported on: <YYYY-MM-DD>
 ```
@@ -181,7 +182,7 @@ If edits were made, they should improve usefulness rather than length.
 Before finishing, confirm that:
 
 - no literal `<...>` placeholder remains in the generated skill
-- the skill format still matches the destination runtime
+- the skill format still matches the destination runtime, and the front matter passes a format check
 - the diff-base choice matches the destination repository's git workflow
 - the evidence source used was stated explicitly, with blind spots when applicable
 - if git history was unavailable, the alternative evidence source and its blind spots were stated explicitly

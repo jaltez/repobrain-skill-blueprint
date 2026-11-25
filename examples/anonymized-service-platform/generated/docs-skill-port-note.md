@@ -5,9 +5,9 @@ This illustrative note shows the minimum record the porting agent created before
 ## Provenance
 
 - Blueprint: RepoBrain Skill Blueprint
-- Blueprint version: 2026.05.06
+- Blueprint version: 2026.11.25
 - Blueprint source ref: example-blueprint-ref
-- Port date: 2026-05-06
+- Port date: 2026-11-25
 
 ## Inspection Complete Record
 
@@ -18,12 +18,13 @@ This illustrative note shows the minimum record the porting agent created before
 - Source roots: `services/api/src/`, `services/worker/src/`
 - Shared-code root: `packages/shared/`
 - Config root: `config/`
-- Destination runtime/schema: YAML front matter with `name`, `description`, and `argument-hint` is accepted
+- Destination runtime/schema: the runtime follows the Agent Skills front matter contract; generated skills use `name` and `description` only, with no runtime-specific extension fields
 
 ## Bound Placeholders
 
 - orientation skill name: `docs-orientation`
 - maintenance skill name: `docs-maintenance`
+- skill directory: `.agents/skills/docs-orientation/` and `.agents/skills/docs-maintenance/`, each named exactly like its `name` field
 - canonical doc template: `docs/intent/_template.md`
 - entrypoint search pattern: `main.ts|index.ts|router.ts|handler.ts`
 - registration search pattern: `router\.|app\.use|queue\.process|register`
@@ -43,3 +44,7 @@ This illustrative note shows the minimum record the porting agent created before
 
 - Changed-file manifests can miss deleted or renamed docs unless the review artifact calls them out explicitly.
 - Shared library impact still requires consumer tracing in the services before downstream docs are updated.
+
+## Format Validation
+
+- Both generated skills pass an Agent Skills format check: the directory name equals `name`, no non-standard front matter fields, and `description` within 1024 characters.

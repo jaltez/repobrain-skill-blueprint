@@ -1,7 +1,6 @@
 ---
 name: docs-orientation
 description: "Use docs/intent plus targeted code verification to orient in a service area or workflow before editing code or making behavioral claims."
-argument-hint: "Describe the service, workflow, or question to understand"
 ---
 
 # Documentation Orientation Skill
@@ -11,9 +10,9 @@ This illustrative generated artifact shows what the split orientation skill can 
 ## Porting Metadata
 
 Ported from RepoBrain Skill Blueprint
-Blueprint version: 2026.05.06
+Blueprint version: 2026.11.25
 Blueprint source ref: example-blueprint-ref
-Ported on: 2026-05-06
+Ported on: 2026-11-25
 
 ## Goal
 
@@ -43,7 +42,7 @@ Treat local docs as intent summaries, not runtime truth.
 
 1. Establish the narrowest plausible scope from the request.
 2. Read the relevant `docs/intent/` entry before broad code search.
-3. Convert the docs into likely code entry points using the local seed patterns `main.ts|index.ts|router.ts|handler.ts`, `router\.|app\.use|queue\.process|register`, and `process\.env|getConfig\(|config\.`.
+3. Convert the docs into likely code entry points using the local seed patterns: `main.ts|index.ts|router.ts|handler.ts` for entry points, `router\.|app\.use|queue\.process|register` for registration sites, `process\.env|getConfig\(|config\.` for config access, and `@shared/|packages/shared|from '@platform/shared'` for shared-dependency usage.
 4. Verify the relevant behavior in `services/api/src/`, `services/worker/src/`, or `packages/shared/`.
 5. Widen into adjacent components only if the answer depends on shared config, shared libraries, or cross-service flow.
 
@@ -61,6 +60,7 @@ State:
 Before finishing, confirm that:
 
 - repository-wide rules were loaded before local interpretation
+- the skill format still matches the destination runtime, and the front matter passes a format check
 - no literal placeholder markers remain
 - the explanation does not treat docs as runtime truth
 - the result points to concrete code paths such as `services/api/src/orders/` or `services/worker/src/notifications/`

@@ -128,7 +128,7 @@ The templates in this repository use a slightly more agent-directed shape than t
 
 Recommended sections:
 
-1. YAML front matter with `name`, `description`, and `argument-hint`
+1. YAML front matter with `name` and `description`, the two required Agent Skills fields
 2. Title
 3. Porting Metadata
 4. Goal
@@ -152,6 +152,17 @@ Why this structure is better for a coding agent:
 If the destination skill runtime prefers different headings, translate the structure instead of copying the names literally.
 
 The section list above describes the information a generated skill should carry, not a rigid syntax contract. If the destination runtime rejects YAML front matter or custom headings, adapt the schema while preserving the same decision boundaries.
+
+### Front Matter Portability
+
+The front matter is the only part of a generated skill that has a format contract, so it is treated as portable scaffolding rather than as a local convention.
+
+- The Agent Skills specification allows six fields: `name`, `description`, `license`, `compatibility`, `metadata`, and `allowed-tools`. Only `name` and `description` are required.
+- Everything else is a runtime extension, such as an autocomplete argument hint, file-scoping patterns, invocation switches, or subagent execution settings.
+- Extensions do not travel. A validator for the specification rejects any unknown field and some distribution paths fail on it, while the runtime that defines the field treats it as optional.
+- For that reason the templates carry `name` and `description` only. A port may add an extension when the destination runtime documents it, and records that addition in the port note.
+
+Earlier versions of this blueprint put an `argument-hint` field in both templates. That field belongs to a single runtime and not to the specification, so the reference validator rejected the example skills that carried it.
 
 ## Search Pattern Guidance
 
@@ -181,6 +192,10 @@ Examples to avoid unless they already fit the destination repository:
 - `portable-read-skill`
 - `repobrain-docs-skill`
 - `seed-update-skill`
+
+A skill name is also a directory name. The specification requires lowercase letters, digits, and hyphens, at most 64 characters, and a match with the directory that contains the `SKILL.md`.
+
+Before settling on a name, check the destination runtime for reserved or special-cased names and for built-in commands or bundled skills that a project skill with the same name would replace.
 
 ## Source-Version Traceability
 
@@ -218,6 +233,7 @@ Before changing this blueprint, confirm all of the following:
 - it contains no stack-specific namespace, controller family, framework directory, or class pattern presented as universal
 - code-search examples remain abstract or are clearly labeled as destination-local examples
 - conventions are described as inputs the destination repository must provide, not facts this blueprint assumes
+- it contains no runtime-specific front matter field presented as portable default guidance
 
 Manual verification procedure:
 

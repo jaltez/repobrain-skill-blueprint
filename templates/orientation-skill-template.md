@@ -1,12 +1,13 @@
 ---
 name: <LOCAL_ORIENTATION_SKILL_NAME>
 description: "Use local intent docs plus targeted code verification to orient in a feature area before editing code or making behavioral claims."
-argument-hint: "Describe the feature area, component, workflow, or question to understand"
 ---
 
 # Documentation Orientation Skill
 
 Before finalizing a generated skill from this template, replace every literal `<...>` placeholder and adapt or remove any metadata or headings the destination runtime does not support.
+
+Keep the front matter to `name` and `description` unless the destination runtime documents extra fields. `<LOCAL_ORIENTATION_SKILL_NAME>` must equal the name of the directory that holds the generated `SKILL.md`, in lowercase letters, digits, and hyphens.
 
 ## Porting Metadata
 
@@ -16,7 +17,7 @@ Suggested marker:
 
 ```text
 Ported from RepoBrain Skill Blueprint
-Blueprint version: 2026.05.06
+Blueprint version: 2026.11.25
 Blueprint source ref: <tag-or-commit>
 Ported on: <YYYY-MM-DD>
 ```
@@ -160,7 +161,7 @@ Before finishing, confirm that:
 
 - no literal `<...>` placeholder remains in the generated skill
 - the local search cues were either bound explicitly or intentionally removed because they had no clean local equivalent
-- the skill format still matches the destination runtime
+- the skill format still matches the destination runtime, and the front matter passes a format check
 - repository-wide rules were loaded before local interpretation
 - the explanation did not treat docs as runtime truth
 - any unresolved claim is labeled as inferred or unverified
