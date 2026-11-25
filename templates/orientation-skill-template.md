@@ -7,7 +7,7 @@ description: "Use local intent docs plus targeted code verification to orient in
 
 Before finalizing a generated skill from this template, replace every literal `<...>` placeholder and adapt or remove any metadata or headings the destination runtime does not support.
 
-Keep the front matter to `name` and `description` unless the destination runtime documents extra fields. `<LOCAL_ORIENTATION_SKILL_NAME>` must equal the name of the directory that holds the generated `SKILL.md`, in lowercase letters, digits, and hyphens.
+Keep the front matter to `name` and `description` unless the destination runtime documents more fields. Set `<LOCAL_ORIENTATION_SKILL_NAME>` to the skill directory name, in lowercase letters, digits, and hyphens.
 
 ## Porting Metadata
 
@@ -161,7 +161,7 @@ Before finishing, confirm that:
 
 - no literal `<...>` placeholder remains in the generated skill
 - the local search cues were either bound explicitly or intentionally removed because they had no clean local equivalent
-- the skill format still matches the destination runtime, and the front matter passes a format check
+- the skill format still matches the destination runtime, and the front matter passes the format check
 - repository-wide rules were loaded before local interpretation
 - the explanation did not treat docs as runtime truth
 - any unresolved claim is labeled as inferred or unverified

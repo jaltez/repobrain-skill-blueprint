@@ -18,7 +18,7 @@ This illustrative note shows the minimum record the porting agent created before
 - Source roots: `services/api/src/`, `services/worker/src/`
 - Shared-code root: `packages/shared/`
 - Config root: `config/`
-- Destination runtime/schema: the runtime follows the Agent Skills front matter contract; generated skills use `name` and `description` only, with no runtime-specific extension fields
+- Destination runtime/schema: the runtime follows the Agent Skills specification. Generated skills use `name` and `description` only.
 
 ## Bound Placeholders
 
@@ -47,4 +47,4 @@ This illustrative note shows the minimum record the porting agent created before
 
 ## Format Validation
 
-- Both generated skills pass an Agent Skills format check: the directory name equals `name`, no non-standard front matter fields, and `description` within 1024 characters.
+- Both generated skills pass the format check. Each directory name equals `name`, each front matter holds no non-standard field, and each `description` stays within 1024 characters.

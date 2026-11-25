@@ -33,7 +33,7 @@ Before adapting templates, the porting agent had identified or confirmed absent 
 - shared-code root: `packages/shared/`
 - config root: `config/`
 - maintenance evidence source order: explicit review target, `git diff origin/main...HEAD`, CI changed-file manifest, patch excerpt, manual component list
-- runtime/schema decision: the local skill runtime follows the Agent Skills front matter contract, so each generated skill keeps `name` and `description` only and adds no runtime-specific fields
+- runtime/schema decision: the local skill runtime follows the Agent Skills specification, so each generated skill keeps `name` and `description` only
 
 This record existed before template adaptation started.
 
@@ -45,7 +45,9 @@ Chosen layout:
 - orientation skill first
 - maintenance skill second
 
-Chosen skill location: `.agents/skills/`, the shared project-skill directory that several Agent Skills clients scan, including the runtime that loads these skills. It was preferred over a runtime-specific directory so the same files stay visible if the repository later serves another client that scans it.
+Chosen skill location:
+
+- `.agents/skills/`. The local runtime scans it, and so do several other runtimes.
 
 Chosen rollout:
 
@@ -149,7 +151,7 @@ Maintenance validation:
 
 Format validation:
 
-- Each generated skill passes an Agent Skills format check: the directory name equals `name`, the front matter holds no non-standard field, and `description` stays within 1024 characters.
+- Each generated skill passes the format check. Its directory name equals `name`, its front matter holds no non-standard field, and its `description` stays within 1024 characters.
 
 Validation should fail for this example if a generated artifact still contains literal `<...>` placeholders, cannot point to local docs or code paths, omits the maintenance evidence source, or fails the format check.
 

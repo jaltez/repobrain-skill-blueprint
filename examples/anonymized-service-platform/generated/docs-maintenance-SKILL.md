@@ -57,7 +57,7 @@ State:
 Before finishing, confirm that:
 
 - no literal placeholder markers remain
-- the skill format still matches the destination runtime, and the front matter passes a format check
+- the skill format still matches the destination runtime, and the front matter passes the format check
 - the evidence source used was stated explicitly
 - blind spots were called out when evidence was partial
 - shared-code and config changes were traced into real consumers before downstream docs were updated

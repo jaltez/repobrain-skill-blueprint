@@ -128,7 +128,7 @@ The templates in this repository use a slightly more agent-directed shape than t
 
 Recommended sections:
 
-1. YAML front matter with `name` and `description`, the two required Agent Skills fields
+1. YAML front matter with `name` and `description`, the two fields the Agent Skills specification requires
 2. Title
 3. Porting Metadata
 4. Goal
@@ -155,14 +155,14 @@ The section list above describes the information a generated skill should carry,
 
 ### Front Matter Portability
 
-The front matter is the only part of a generated skill that has a format contract, so it is treated as portable scaffolding rather than as a local convention.
+The front matter is the only part of a generated skill with a format contract. The Agent Skills specification defines that contract, so the templates follow it instead of a local convention.
 
-- The Agent Skills specification allows six fields: `name`, `description`, `license`, `compatibility`, `metadata`, and `allowed-tools`. Only `name` and `description` are required.
-- Everything else is a runtime extension, such as an autocomplete argument hint, file-scoping patterns, invocation switches, or subagent execution settings.
-- Extensions do not travel. A validator for the specification rejects any unknown field and some distribution paths fail on it, while the runtime that defines the field treats it as optional.
-- For that reason the templates carry `name` and `description` only. A port may add an extension when the destination runtime documents it, and records that addition in the port note.
+- The specification allows six fields: `name`, `description`, `license`, `compatibility`, `metadata`, and `allowed-tools`. Only `name` and `description` are required.
+- Any other field is a runtime extension. Examples are an autocomplete argument hint, file-scoping patterns, invocation switches, and subagent settings.
+- The runtime that defines an extension field treats it as optional. A spec validator rejects the field, and so does any upload or packaging path that enforces the specification.
+- The templates therefore carry `name` and `description` only. A port may add an extension when the destination runtime documents it, and must record it in the port note.
 
-Earlier versions of this blueprint put an `argument-hint` field in both templates. That field belongs to a single runtime and not to the specification, so the reference validator rejected the example skills that carried it.
+Earlier versions of this blueprint put an `argument-hint` field in both templates. One runtime defines that field, and the specification does not allow it. The reference validator rejected the example skills that carried it.
 
 ## Search Pattern Guidance
 
@@ -193,9 +193,9 @@ Examples to avoid unless they already fit the destination repository:
 - `repobrain-docs-skill`
 - `seed-update-skill`
 
-A skill name is also a directory name. The specification requires lowercase letters, digits, and hyphens, at most 64 characters, and a match with the directory that contains the `SKILL.md`.
+A skill name is also a directory name. The specification requires lowercase letters, digits, and hyphens, at most 64 characters. The name must match the directory that contains the `SKILL.md`.
 
-Before settling on a name, check the destination runtime for reserved or special-cased names and for built-in commands or bundled skills that a project skill with the same name would replace.
+Before you settle on a name, check the destination runtime for reserved names. Also check for built-in commands or bundled skills. A project skill with the same name replaces them.
 
 ## Source-Version Traceability
 
@@ -233,7 +233,7 @@ Before changing this blueprint, confirm all of the following:
 - it contains no stack-specific namespace, controller family, framework directory, or class pattern presented as universal
 - code-search examples remain abstract or are clearly labeled as destination-local examples
 - conventions are described as inputs the destination repository must provide, not facts this blueprint assumes
-- it contains no runtime-specific front matter field presented as portable default guidance
+- it contains no runtime-specific front matter field presented as universal
 
 Manual verification procedure:
 

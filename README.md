@@ -4,7 +4,7 @@
 
 Blueprint version: `2026.11.25`
 
-Changes from `2026.05.06` are listed in [Version History](#version-history).
+[Version History](#version-history) lists the changes from `2026.05.06`.
 
 This repository is a blueprint for creating project-specific documentation skills.
 
@@ -47,7 +47,8 @@ Before generating anything, the porting agent must inspect the destination repos
 - whether the destination repository already has an intent-doc system or needs one first
 - how git diff scope should be determined in that repository
 - whether the destination repository's prompt patterns require narrower wording or stronger guardrails
-- which agent runtimes must load the skills, which skill directories they scan, and which front matter fields they accept or reject
+- which runtimes must load the skills, and which skill directories each one scans
+- which front matter fields each runtime accepts or rejects
 
 If the destination repository already has a memory mechanism, repository instructions, or agent-specific metadata, do not blindly add a second competing system. Reuse or unify the existing mechanism when possible. If coexistence is necessary, document the boundary clearly.
 
@@ -94,7 +95,7 @@ Inspection is complete only when you have identified, or explicitly confirmed ab
 - existing skills, memory files, or instruction files that may overlap
 - the maintenance evidence source the destination repository can actually support
 - the destination skill runtime's schema constraints
-- the skill location and front matter rules for every runtime that must load the skills
+- skill location and front matter rules for each runtime that loads the skills
 
 Record these findings before you adapt templates. A port without this record is incomplete.
 
@@ -184,16 +185,16 @@ Require the generated maintenance skill to state which evidence source it used a
 
 ### 3B. Keep The Generated Skills Within The Skill Format Baseline
 
-The templates follow the Agent Skills open standard so that a generated skill stays portable across runtimes.
+The templates follow the Agent Skills specification. Keep each generated skill within it so that every runtime can load it.
 
-- A skill is a directory with a `SKILL.md` file made of YAML front matter followed by Markdown instructions.
-- Only `name` and `description` are required. The standard also allows `license`, `compatibility`, `metadata`, and `allowed-tools`.
-- `name` must match the skill directory name and use only lowercase letters, digits, and hyphens, within 64 characters.
-- `description` is limited to 1024 characters. It should say what the skill does and when to use it, with the key use case first, as a quoted string.
-- Any other front matter field is a runtime extension. Add one only when the destination runtime documents it, and record it in the port note, because spec validators and some distribution paths reject unknown fields instead of ignoring them.
-- Keep the instruction body concise. The specification recommends under 500 lines and under 5,000 tokens, with longer reference material in files next to `SKILL.md`.
+- Put each skill in its own directory with a `SKILL.md` file. The file holds YAML front matter and then Markdown instructions.
+- Keep the front matter to `name` and `description`, the only required fields. The specification also allows `license`, `compatibility`, `metadata`, and `allowed-tools`.
+- Set `name` to the skill directory name. Use at most 64 lowercase letters, digits, and hyphens.
+- Keep `description` under 1024 characters and in quotes. State what the skill does and when to use it. Put the main use case first.
+- Treat any other field as a runtime extension. Add one only when the destination runtime documents it, and record it in the port note. A spec validator checks a skill against the specification and rejects unknown fields.
+- Keep the body under 500 lines and under 5,000 tokens. Move longer reference material to files next to `SKILL.md`.
 
-Where the skills live is not standardized. Each runtime scans its own directories, and only some of them also scan the shared `.agents/skills/` directory. Choose a directory that every runtime which must load the skills is documented to scan.
+The specification does not define where skills live. Each runtime scans its own directories, and some also scan `.agents/skills/`. Choose a directory that every runtime involved is documented to scan.
 
 ### 4. Adapt The Templates
 
@@ -202,7 +203,8 @@ Use the files under `templates/` as the base artifacts.
 While adapting them:
 
 - rename sections if the destination skill system expects different headings
-- keep the front matter to the standard fields unless the destination runtime expects a different schema, and add a runtime extension only when that runtime documents it
+- keep the front matter to the standard fields, unless the destination runtime expects a different schema
+- add a runtime extension field only when the destination runtime documents it
 - keep the decision boundaries and verification discipline intact
 - replace every literal placeholder marker before finalizing the generated skill
 - replace generic examples with destination-relevant examples only after inspecting the destination repository
@@ -211,7 +213,7 @@ While adapting them:
 
 ### 5. Validate The Result In The Destination Repository
 
-Check the format before the prompts. Run the destination runtime's validator when it provides one, and otherwise a validator for the Agent Skills specification.
+Check the format first. Run the destination runtime's validator. If it has none, run a spec validator.
 
 Run at least one real prompt for each generated skill.
 
@@ -221,7 +223,7 @@ The orientation skill should prove that it can load the right docs, reconcile th
 
 The maintenance skill should prove that it can determine diff scope, map code changes to documented components, choose the smallest correct documentation action, and avoid unnecessary rewrites.
 
-Run one near-miss prompt per skill as well, one that belongs to the other skill or to no skill, and confirm that it does not trigger this one.
+Then run one near-miss prompt per skill. A near-miss prompt belongs to the other skill or to no skill. Confirm that it does not trigger this one.
 
 Validation should fail if any of the following remain true:
 
@@ -230,8 +232,8 @@ Validation should fail if any of the following remain true:
 - the orientation skill cannot name concrete next code locations
 - the maintenance skill does not state the evidence source it used and any blind spots when evidence is partial
 - the generated skill format does not match the destination runtime's accepted schema
-- front matter validation fails, for example because `name` does not match the skill directory or a non-standard field is present
-- a skill triggers on a near-miss prompt that belongs to the other skill
+- the format check fails, for example because `name` differs from the skill directory
+- a skill triggers on a near-miss prompt
 
 ## Generic Usage Shapes
 
@@ -256,7 +258,7 @@ The destination repository may require additional integration work if any of the
 - it uses dynamic registration, reflection, or indirect dependency wiring that weakens code-search reliability
 - it uses a git workflow where upstream tracking is absent, misleading, or routinely rewritten
 - it runs in environments where only changed-file lists, patch excerpts, or review artifacts are available
-- it is served by more than one agent runtime whose skill directories or front matter rules differ
+- more than one runtime loads its skills, and they differ in skill directories or front matter rules
 
 Review [docs/integration-warnings.md](docs/integration-warnings.md) before finalizing a port.
 
@@ -286,10 +288,10 @@ Ported on: <YYYY-MM-DD>
 
 ### 2026.11.25
 
-- Front matter in both templates and in the example skills is limited to `name` and `description`. The `argument-hint` field used by earlier versions is a runtime extension outside the Agent Skills specification, and the specification's reference validator rejected the example skills that carried it.
-- The porting procedure gained a skill format baseline, a check for repositories served by more than one runtime, and format and trigger validation steps.
-- The example port was corrected: its orientation skill now carries all four bound search cues, its skills moved to the shared `.agents/skills/` directory, and its provenance dates agree with its port note.
-- To refresh a port made from an earlier version, remove any non-standard front matter field unless the destination runtime documents it, then run the format check in step 5.
+- Both templates and both example skills now limit the front matter to `name` and `description`. Earlier versions added `argument-hint`, which the Agent Skills specification does not allow. The reference validator rejected the example skills that carried it.
+- Step 3B states the skill format baseline. The checklist adds a location check for repositories with more than one runtime, a format check, and a near-miss trigger check.
+- The example port now places its skills in `.agents/skills/`. Its orientation skill lists all four bound search cues, and its port dates now match.
+- To refresh a port made from an earlier version, remove any non-standard front matter field unless the destination runtime documents it. Then run the format check in step 5.
 
 ### 2026.05.06
 
@@ -321,7 +323,7 @@ Recommended vocabulary:
 
 Do not force these exact names if the destination repository already has a stronger local naming convention.
 
-The name is also the name of the skill directory, so it has to satisfy the format baseline in step 3B.
+The name must also be a valid skill directory name. See step 3B.
 
 ## Start Here
 

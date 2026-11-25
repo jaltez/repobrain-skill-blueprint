@@ -60,7 +60,7 @@ State:
 Before finishing, confirm that:
 
 - repository-wide rules were loaded before local interpretation
-- the skill format still matches the destination runtime, and the front matter passes a format check
+- the skill format still matches the destination runtime, and the front matter passes the format check
 - no literal placeholder markers remain
 - the explanation does not treat docs as runtime truth
 - the result points to concrete code paths such as `services/api/src/orders/` or `services/worker/src/notifications/`
